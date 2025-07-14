@@ -1,8 +1,10 @@
 import Image from "next/image";
 
-function EmptyItem() {
+function EmptyItem({ className = "" }) {
   return (
-    <div className="flex flex-col items-center justify-center h-full mx-auto opacity-30">
+    <div
+      className={`flex flex-col items-center justify-center h-full mx-auto opacity-30 ${className}`}
+    >
       <Image
         src="/barcode.svg" // Replace with your actual image path
         alt="Empty Barcode"

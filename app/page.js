@@ -5,14 +5,10 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="h-dvh p-[60px] relative flex flex-col justify-center items-center">
-      <Image
-        className="absolute top-[60px] left-[60px]"
-        src="/logo-white.png"
-        height={100}
-        width={300}
-        alt="logo"
-      />
+    <div className="h-dvh relative flex flex-col justify-center items-center">
+      <div className="absolute top-[60px] left-[60px] w-[20vw] h-[6vw] object-cover">
+        <Image src="/logo-white.png" fill alt="logo" />
+      </div>
 
       <h1 className={`text-9xl ${JinHeiFont.className} text-white`}>
         自助掃描機
