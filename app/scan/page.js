@@ -8,18 +8,21 @@ import { NotoSans, Shrikhand } from "@/fonts/fonts";
 import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ITEMS from "@/data/items.json";
 import Alert from "@/components/Alert";
+import { motion } from "motion/react";
 
 export default function Scan() {
   const [items, setItems] = useState([]);
   const [tempString, setTempString] = useState("");
   const [isShowAlert, setShowAlert] = useState(false);
+  const scrollRef = useRef(null);
 
   const onKeyDown = useCallback(
     (event) => {
       if (event.key === "Enter") {
+        console.log(tempString);
         const item = ITEMS.find((item) => item.id === tempString);
 
         if (item) {
@@ -31,6 +34,12 @@ export default function Scan() {
         }
 
         setTempString("");
+
+        if (scrollRef.current) {
+          setTimeout(() => {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+          }, 200);
+        }
       } else {
         setTempString((prevString) => prevString + event.key);
       }
@@ -53,7 +62,12 @@ export default function Scan() {
   };
 
   return (
-    <div className="flex flex-col justify-center h-dvh bg-white p-[60px]">
+    <motion.div
+      whileInView={{ opacity: 1 }}
+      initial={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="flex flex-col justify-center h-dvh bg-white p-[60px]"
+    >
       <div className="flex justify-between items-center">
         <div className="relative w-[20vw] h-[6vw] object-cover">
           <Image src="/logo.png" fill alt="logo" />
@@ -68,16 +82,20 @@ export default function Scan() {
 
       <div className="mt-8 rounded-2xl border-[3px] border-primary grow overflow-y-hidden py-10 px-10">
         <div
-          className={`overflow-y-scroll max-h-full h-full ${
+          ref={scrollRef}
+          className={`overflow-x-hidden overflow-y-scroll max-h-full h-full ${
             items.length ? "pr-8 pb-8" : ""
           }`}
         >
           {items.length ? (
             items.map((item) => (
-              <Item
+              <MotionItem
                 key={`imported-item-${item.id}`}
                 item={item}
                 onDelete={(id) => deleteItem(id)}
+                initial={{ x: 40, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
               />
             ))
           ) : (
@@ -102,6 +120,8 @@ export default function Scan() {
       </div>
 
       <Alert open={isShowAlert} onClose={() => setShowAlert(false)} />
-    </div>
+    </motion.div>
   );
 }
+
+const MotionItem = motion.create(Item);
