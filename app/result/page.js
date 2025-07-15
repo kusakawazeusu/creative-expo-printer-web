@@ -9,6 +9,12 @@ function ScanResultPage() {
   const [isFinished, setFinished] = useState(false);
 
   useEffect(() => {
+    fetch("/api/print", {
+      method: "POST",
+    });
+  }, []);
+
+  useEffect(() => {
     setTimeout(() => setFinished(true), 1000);
   }, []);
 
