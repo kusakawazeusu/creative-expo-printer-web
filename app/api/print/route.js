@@ -19,7 +19,8 @@ export async function POST(request) {
         throw new Error(err);
       }
 
-      let printer = new Printer(device);
+      const options = { encoding: "BIG5" /* default */ };
+      let printer = new Printer(device, options);
 
       images.forEach(async (image) => {
         const imagePath = path.join(
