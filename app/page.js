@@ -19,6 +19,10 @@ export default function Home() {
     setTimeout(() => router.push("/scan"), 500);
   }, [router]);
 
+  const testPrint = useCallback(async () => {
+    fetch("/api/test", { method: "POST" });
+  }, []);
+
   return (
     <AnimatePresence>
       {visible && (
@@ -42,6 +46,10 @@ export default function Home() {
 
           <Button className="mt-10" onClick={onNextPage}>
             開始掃描
+          </Button>
+
+          <Button className="mt-10" onClick={testPrint}>
+            測試
           </Button>
         </motion.div>
       )}
