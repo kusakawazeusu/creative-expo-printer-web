@@ -20,7 +20,10 @@ export default function Home() {
   }, [router]);
 
   const testPrint = useCallback(async () => {
-    fetch("/api/test", { method: "POST" });
+    fetch("/api/print", {
+      method: "POST",
+      body: JSON.stringify({ id: "mazu-003" }),
+    });
   }, []);
 
   return (

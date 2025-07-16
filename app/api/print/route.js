@@ -22,7 +22,7 @@ export async function POST(request) {
       const options = { encoding: "BIG5" /* default */ };
       let printer = new Printer(device, options);
 
-      images.forEach(async (image) => {
+      for (const image of images) {
         const imagePath = path.join(
           process.cwd(),
           "public",
@@ -39,7 +39,7 @@ export async function POST(request) {
         );
 
         printer.cut();
-      });
+      }
 
       printer.close();
     });
