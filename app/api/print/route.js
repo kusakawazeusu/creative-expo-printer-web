@@ -5,38 +5,49 @@ import path from "path";
 
 export async function POST(request) {
   try {
+    const body = await request.json();
+    const { id } = body;
+    const images = id.split(",");
+
+    if (!images.length) {
+      return NextResponse.json({ message: "no images" }, { status: 400 });
+    }
+
     const device = new USB();
     device.open(async function (err) {
       if (err) {
-        console.error(err);
-        return;
+        throw new Error(err);
       }
 
-      const options = { encoding: "BIG5" /* default */ };
-      let printer = new Printer(device, options);
+      let printer = new Printer(device);
 
-      const imagePath = path.join(process.cwd(), "public", "4.png");
+      images.forEach(async (image) => {
+        const imagePath = path.join(
+          process.cwd(),
+          "public",
+          "images",
+          `${image}.png`
+        );
 
-      const image1 = await Image.load(imagePath);
-      printer = await printer.align("CT").image(
-        image1,
-        "d24" // changing with image
-      );
+        console.log(imagePath);
+        const loadedImage = await Image.load(imagePath);
 
-      printer.cut().close();
+        printer = await printer.align("CT").image(
+          loadedImage,
+          "d24" // changing with image
+        );
+
+        printer.cut();
+      });
+
+      printer.close();
     });
-
-    // const { printIds } = await request.json();
 
     return NextResponse.json(
       { message: "Print job sent successfully" },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error processing print request:", error);
-    return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: String(error) }, { status: 500 });
   }
 }

@@ -3,16 +3,11 @@
 import Image from "next/image";
 import { JinHeiFont, NotoSans } from "@/fonts/fonts";
 import Progress from "@/components/Progress";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 function ScanResultPage() {
   const [isFinished, setFinished] = useState(false);
-
-  useEffect(() => {
-    fetch("/api/print", {
-      method: "POST",
-    });
-  }, []);
 
   useEffect(() => {
     setTimeout(() => setFinished(true), 1000);
@@ -60,8 +55,35 @@ function ScanResultPage() {
         className="mt-8 w-[720px]"
         onAnimationEnd={() => setFinished(true)}
       />
+
+      <Suspense>
+        <ApiCall />
+      </Suspense>
     </div>
   );
 }
 
 export default ScanResultPage;
+
+function ApiCall() {
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const id = searchParams.get("id");
+    if (!id) {
+      return;
+    }
+
+    window.history.replaceState(null, "", window.location.pathname);
+
+    fetch("/api/print", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+  }, [searchParams]);
+
+  return null;
+}

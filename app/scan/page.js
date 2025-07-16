@@ -116,7 +116,9 @@ export default function Scan() {
           </strong>
         </span>
 
-        <Button>完成掃描</Button>
+        <Link href={`/result?id=${items.map((item) => item.id).join(",")}`}>
+          <Button disabled={!items.length}>完成掃描</Button>
+        </Link>
       </div>
 
       <Alert open={isShowAlert} onClose={() => setShowAlert(false)} />
