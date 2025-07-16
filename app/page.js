@@ -50,10 +50,6 @@ export default function Home() {
           <Button className="mt-10" onClick={onNextPage}>
             開始掃描
           </Button>
-
-          <Button className="mt-10" onClick={testPrint}>
-            測試
-          </Button>
         </motion.div>
       )}
     </AnimatePresence>
