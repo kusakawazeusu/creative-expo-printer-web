@@ -1,0 +1,24 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_d1vhv0qoqhr2s1o71nmg",
+    "operations": [
+      {
+        "add_column": {
+          "table": "scan_result",
+          "column": {
+            "name": "payload",
+            "type": "text",
+            "comment": "",
+            "nullable": true
+          }
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_d1vhv0qoqhr2s1o71nmg",
+  "parent": "mig_d1vhu4rj0aqdfvuvd9u0",
+  "schema": "public",
+  "startedAt": "2025-07-22T05:20:04.390296Z"
+}

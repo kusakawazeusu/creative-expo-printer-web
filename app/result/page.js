@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { JinHeiFont, NotoSans } from "@/fonts/fonts";
 import Progress from "@/components/Progress";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 function ScanResultPage() {
@@ -68,6 +68,21 @@ export default ScanResultPage;
 function ApiCall() {
   const searchParams = useSearchParams();
 
+  const print = useCallback(async (id) => {
+    const response = await fetch("/api/print", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      alert(error.message);
+    }
+  }, []);
+
   useEffect(() => {
     const id = searchParams.get("id");
     if (!id) {
@@ -76,14 +91,8 @@ function ApiCall() {
 
     window.history.replaceState(null, "", window.location.pathname);
 
-    fetch("/api/print", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id }),
-    });
-  }, [searchParams]);
+    print(id);
+  }, [print, searchParams]);
 
   return null;
 }

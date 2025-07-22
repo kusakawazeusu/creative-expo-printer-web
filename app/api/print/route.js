@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { Printer, Image } from "@node-escpos/core";
 import USB from "@node-escpos/usb-adapter";
 import path from "path";
+import { getXataClient } from "@/src/xata";
 
 export async function POST(request) {
   try {
@@ -42,6 +43,11 @@ export async function POST(request) {
       }
 
       printer.close();
+    });
+
+    const xata = getXataClient();
+    await xata.db.scan_result.create({
+      payload: id,
     });
 
     return NextResponse.json(
