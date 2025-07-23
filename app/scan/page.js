@@ -21,6 +21,12 @@ export default function Scan() {
 
   const onKeyDown = useCallback(
     (event) => {
+      if (event.ctrlKey && event.key === "e") {
+        event.preventDefault();
+        const randomIndex = Math.floor(Math.random() * ITEMS.length);
+        setItems((prevItems) => [...prevItems, ITEMS[randomIndex]]);
+      }
+
       if (event.key === "Enter") {
         console.log(tempString);
         const item = ITEMS.find((item) => item.id === tempString);
