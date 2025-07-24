@@ -21,10 +21,15 @@ export default function Scan() {
 
   const onKeyDown = useCallback(
     (event) => {
-      if (event.ctrlKey && event.key === "e") {
+      if (event.ctrlKey) {
         event.preventDefault();
-        const randomIndex = Math.floor(Math.random() * ITEMS.length);
-        setItems((prevItems) => [...prevItems, ITEMS[randomIndex]]);
+
+        const index = Number(event.key);
+        const item = ITEMS[index];
+
+        if (item) {
+          setItems((prevItems) => [...prevItems, item]);
+        }
       }
 
       if (event.key === "Enter") {
