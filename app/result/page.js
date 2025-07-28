@@ -8,10 +8,20 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import OutlineButton from "@/components/OutlineButton";
+import { useRouter } from "next/navigation";
 
 function ScanResultPage() {
   const [isFinished, setFinished] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isFinished) {
+      setTimeout(() => {
+        router.replace("/");
+      }, 3000);
+    }
+  }, [isFinished, router]);
 
   if (isFinished) {
     return (
