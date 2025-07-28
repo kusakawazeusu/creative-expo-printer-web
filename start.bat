@@ -1,4 +1,4 @@
 @echo off
 echo Running Node script...
-node start.js
+npm run start
 pause
