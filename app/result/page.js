@@ -77,7 +77,9 @@ function ScanResultPage() {
         收據列印中，請稍候 ⋯⋯
       </p>
 
-      <ProgressBar onFinished={() => setFinished(true)} />
+      <Suspense>
+        <ProgressBar onFinished={() => setFinished(true)} />
+      </Suspense>
 
       <Suspense>
         <ApiCall onError={setErrorMessage} />
