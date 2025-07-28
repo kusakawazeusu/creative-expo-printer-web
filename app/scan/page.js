@@ -28,7 +28,12 @@ export default function Scan() {
         const item = ITEMS[index];
 
         if (item) {
-          setItems((prevItems) => [...prevItems, item]);
+          if (items.find((targetItem) => targetItem.id === item.id)) {
+            setShowAlert(true);
+          } else {
+            setItems((prevItems) => [...prevItems, item]);
+            setShowAlert(false);
+          }
         }
       }
 
@@ -41,6 +46,7 @@ export default function Scan() {
             setShowAlert(true);
           } else {
             setItems((prevItems) => [...prevItems, item]);
+            setShowAlert(false);
           }
         }
 
