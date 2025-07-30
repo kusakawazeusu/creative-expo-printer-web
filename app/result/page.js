@@ -19,7 +19,7 @@ function ScanResultPage() {
     if (isFinished) {
       setTimeout(() => {
         router.replace("/");
-      }, 3000);
+      }, 10000);
     }
   }, [isFinished, router]);
 
